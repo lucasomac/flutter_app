@@ -1,3 +1,5 @@
+import 'package:flutter_app/wigdet_app.dart';
+
 import 'widget_list_api.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +14,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // theme: ThemeData(primaryColor: Colors.blue),
       home: Scaffold(
-        body: BuildListView(),
+        body: Home(),
       ),
     );
   }
