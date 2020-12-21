@@ -17,23 +17,33 @@ class _HomeState extends State<Home> {
         title: Text("Gasolina ou Álcool?"),
         centerTitle: true,
         backgroundColor: Colors.orange,
-        actions: [IconButton(icon: Icon(Icons.refresh), onPressed: () {})],
+        actions: [
+          IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () {
+                _resetaValores();
+              })
+        ],
       ),
       backgroundColor: Colors.white,
-      body: Form(
-        key: _formkey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Icon(
-              Icons.directions_car,
-              size: 60,
-              color: Colors.orange,
-            ),
-            buildTextFormFieldGasolina(),
-            buildTextFormFieldAlcool(),
-            buildTextInfo(),
-          ],
+      body: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+        child: Form(
+          key: _formkey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Icon(
+                Icons.directions_car,
+                size: 60,
+                color: Colors.orange,
+              ),
+              buildTextFormFieldGasolina(),
+              buildTextFormFieldAlcool(),
+              buildContainerButton(context),
+              buildTextInfo(),
+            ],
+          ),
         ),
       ),
     );
@@ -49,7 +59,8 @@ class _HomeState extends State<Home> {
           fontSize: 20,
         ),
       ),
-      controller: alcoolController,
+      style: TextStyle(fontSize: 30),
+      controller: gasolinaController,
       validator: (value) {
         if (value.isEmpty) {
           return "Informe o valor da gasolina";
@@ -69,6 +80,7 @@ class _HomeState extends State<Home> {
           fontSize: 20,
         ),
       ),
+      style: TextStyle(fontSize: 30),
       controller: alcoolController,
       validator: (value) {
         if (value.isEmpty) {
@@ -83,9 +95,11 @@ class _HomeState extends State<Home> {
     return Container(
         height: 50,
         child: RaisedButton(
+          color: Colors.orange,
           onPressed: () {
             if (_formkey.currentState.validate()) {
               FocusScope.of(context).requestFocus(new FocusNode());
+              calcula();
             }
           },
           child: Text(
@@ -101,5 +115,28 @@ class _HomeState extends State<Home> {
       textAlign: TextAlign.left,
       style: TextStyle(color: Colors.black, fontSize: 20),
     );
+  }
+
+  void calcula() {
+    setState(() {
+      double gasolina = double.parse(gasolinaController.text);
+      double alcool = double.parse(alcoolController.text);
+      double resultado = alcool / gasolina;
+      if (resultado > 0.7) {
+        _infoText =
+            "Percentual : (${resultado.toStringAsPrecision(3)})\n\nVale a pena abastecer com gasolina";
+      } else {
+        _infoText =
+            "Percentual : (${resultado.toStringAsPrecision(3)})\n\nVale a pena abastecer com álcool";
+      }
+    });
+  }
+
+  _resetaValores() {
+    setState(() {
+      gasolinaController.text = "";
+      alcoolController.text = "";
+      _infoText = "Informe o valor de cada combustível";
+    });
   }
 }
