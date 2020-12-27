@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/fase4/pages/prodduto/produto.dart';
 import 'package:flutter_app/fase4/pages/prodduto/produto_api.dart';
@@ -26,7 +25,7 @@ class HomePage extends StatelessWidget {
         future: produtos,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            Text("Erro ao acessar os dados");
+            Center(child: Text("Erro ao acessar os dados"));
           }
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
