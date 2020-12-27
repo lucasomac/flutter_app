@@ -1,10 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_app/fase4/pages/home_page.dart';
-import 'package:flutter_app/fase4/pages/login_api.dart';
-
-import 'alerta.dart';
+import '../alerta.dart';
+import '../home_page.dart';
+import 'login_api.dart';
 
 class LoginPage extends StatelessWidget {
   final _ctrlLogin = TextEditingController(text: "macoratti@yahoo.com");
