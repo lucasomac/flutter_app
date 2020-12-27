@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'Fase 3/widget_web_get.dart';
+
+import 'fase4/pages/Login_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,9 +11,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.red),
+      theme: ThemeData(primarySwatch: Colors.orange),
       // theme: ThemeData(primaryColor: Colors.blue),
-      home: Home(),
+      home: LoginPage(),
     );
   }
 }
