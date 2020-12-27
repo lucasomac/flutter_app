@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/fase4/pages/home_page.dart';
 import 'package:flutter_app/fase4/pages/login_api.dart';
 
+import 'alerta.dart';
+
 class LoginPage extends StatelessWidget {
-  final _ctrlLogin = TextEditingController();
-  final _ctrlSenha = TextEditingController();
+  final _ctrlLogin = TextEditingController(text: "macoratti@yahoo.com");
+  final _ctrlSenha = TextEditingController(text: "Hw8vup5e@219");
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -66,13 +68,14 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  _validaSenha(String texto) {
+  String _validaSenha(String texto) {
     if (texto.isEmpty) {
       return "Digite a senha";
     }
+    return null;
   }
 
-  _validaLogin(String texto) {
+  String _validaLogin(String texto) {
     if (texto.isEmpty) {
       return "Digite o login";
     }
@@ -82,6 +85,9 @@ class LoginPage extends StatelessWidget {
   _raisedButton(String text, Color color, BuildContext context) {
     return RaisedButton(
       color: color,
+      onPressed: () {
+        _clickButton(context);
+      },
       child: Text(
         text,
         style: TextStyle(
@@ -97,8 +103,12 @@ class LoginPage extends StatelessWidget {
     if (!formOk) return;
     String login = _ctrlLogin.text;
     String senha = _ctrlSenha.text;
-    var response = await LoginApi.login(login, senha);
-    _navegaHomePage(context);
+    var usuario = await LoginApi.login(login, senha);
+    if (usuario != null) {
+      _navegaHomePage(context);
+    } else {
+      alert(context, "Login Invalido");
+    }
   }
 
   _navegaHomePage(BuildContext context) {
