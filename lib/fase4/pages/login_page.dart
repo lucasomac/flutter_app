@@ -1,4 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_app/fase4/pages/home_page.dart';
+import 'package:flutter_app/fase4/pages/login_api.dart';
 
 class LoginPage extends StatelessWidget {
   final _ctrlLogin = TextEditingController();
@@ -86,5 +90,19 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _clickButton(BuildContext context) async {
+    bool formOk = _formKey.currentState.validate();
+    if (!formOk) return;
+    String login = _ctrlLogin.text;
+    String senha = _ctrlSenha.text;
+    var response = await LoginApi.login(login, senha);
+    _navegaHomePage(context);
+  }
+
+  _navegaHomePage(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 }
