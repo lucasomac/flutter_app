@@ -1,8 +1,27 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/fase4/pages/prodduto/produto.dart';
 import 'package:flutter_app/fase4/pages/prodduto/produto_api.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final _streamController = StreamController<List<Produto>>();
+  @override
+  void initState() {
+    super.initState();
+    _carregaProdutos();
+  }
+
+  _carregaProdutos() async {
+    List<Produto> produtos = await ProdutoApi.getProdutos();
+    _streamController.add(produtos);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,9 +39,8 @@ class HomePage extends StatelessWidget {
   }
 
   _body() {
-    Future<List<Produto>> produtos = ProdutoApi.getProdutos();
-    return FutureBuilder(
-        future: produtos,
+    return StreamBuilder(
+        stream: _streamController.stream,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             Center(child: Text("Erro ao acessar os dados"));
