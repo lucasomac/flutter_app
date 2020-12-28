@@ -1,8 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_app/fase4/pages/prodduto/produto.dart';
-import 'package:flutter_app/fase4/pages/prodduto/produto_api.dart';
+import 'package:flutter_app/blocs/home_page_bloc.dart';
+import 'package:flutter_app/model/produto.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,23 +8,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _streamController = StreamController<List<Produto>>();
+  final _bloc = HomePageBloc();
 
   @override
   void initState() {
     super.initState();
-    _carregaProdutos();
+    _bloc.carregaProdutos();
   }
 
   @override
   dispose() {
     super.dispose();
-    _streamController.close();
-  }
-
-  _carregaProdutos() async {
-    List<Produto> produtos = await ProdutoApi.getProdutos();
-    _streamController.add(produtos);
+    _bloc.dispose();
   }
 
   @override
@@ -47,7 +40,7 @@ class _HomePageState extends State<HomePage> {
 
   _body() {
     return StreamBuilder(
-        stream: _streamController.stream,
+        stream: _bloc.produtosStream,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             Center(child: Text("Erro ao acessar os dados"));
@@ -89,7 +82,8 @@ class _HomePageState extends State<HomePage> {
                   p.preco.toString(),
                   style: TextStyle(fontSize: 20),
                 ),
-                ButtonTheme.bar(
+                ButtonBarTheme(
+                  data: ButtonBarThemeData(),
                   child: ButtonBar(
                     children: [
                       FlatButton(
