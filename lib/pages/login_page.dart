@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import '../alerta.dart';
-import '../home_page.dart';
-import 'login_api.dart';
+import 'package:flutter_app/blocs/login_bloc.dart';
+import 'alerta.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatelessWidget {
   final _ctrlLogin = TextEditingController(text: "macoratti@yahoo.com");
   final _ctrlSenha = TextEditingController(text: "Hw8vup5e@2019");
   final _formKey = GlobalKey<FormState>();
+  final _bloc = LoginBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +101,7 @@ class LoginPage extends StatelessWidget {
     if (!formOk) return;
     String login = _ctrlLogin.text;
     String senha = _ctrlSenha.text;
-    var usuario = await LoginApi.login(login, senha);
+    var usuario = await _bloc.login(login, senha);
     if (usuario != null) {
       _navegaHomePage(context);
     } else {

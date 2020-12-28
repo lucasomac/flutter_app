@@ -11,10 +11,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _streamController = StreamController<List<Produto>>();
+
   @override
   void initState() {
     super.initState();
     _carregaProdutos();
+  }
+
+  @override
+  dispose() {
+    super.dispose();
+    _streamController.close();
   }
 
   _carregaProdutos() async {

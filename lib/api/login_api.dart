@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter_app/fase4/pages/login/usuario.dart';
+import 'package:flutter_app/model/usuario.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
